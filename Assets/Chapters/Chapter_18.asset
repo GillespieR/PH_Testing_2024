@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8ee6c16d3b21c4faa4726e678368a9, type: 3}
+  m_Name: Chapter_18
+  m_EditorClassIdentifier: 
+  interactObjectTag: sampleBottle
+  highlightObject: sampleBottle
+  interactObjectAnim: {fileID: 9065212045443361151, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  chapAudio: {fileID: 8300000, guid: e100df0e1ae8915429fed863c1c81764, type: 3}
+  chapterMethodNames:
+  - ChapterEighteen
+  chapterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  chapterComplete: 0

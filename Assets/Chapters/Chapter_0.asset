@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8ee6c16d3b21c4faa4726e678368a9, type: 3}
+  m_Name: Chapter_0
+  m_EditorClassIdentifier: 
+  interactObjectTag: phMeter
+  highlightObject: WrongTarget
+  interactObjectAnim: {fileID: 9067093048684652814, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  chapAudio: {fileID: 8300000, guid: 618ebed3421e74b4a8cd1a755e4882c1, type: 3}
+  chapterMethodNames:
+  - IntroChapter
+  chapterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  chapterComplete: 0

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - StoryManager
+  - GlobalDictionaryObject
+  - WrongTarget
+  - phMeter
+  - washBottle
+  - ph7Buffer
+  - ph7BufferSolution
+  - scaleKnobRight
+  - sampleBottle
+  - graduatedCylinder
+  - ph4Buffer
+  - ph4BufferSolution
+  - phBufferSolution
+  - sampleBeaker
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Interactable
+  - Environment
+  - Cameras
+  - Systems
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
