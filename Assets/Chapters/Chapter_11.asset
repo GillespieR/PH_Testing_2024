@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactObjectTag: scaleKnobRight
   highlightObject: scaleKnobRight
-  interactObjectAnim: {fileID: 6100139571335923458, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
-  chapAudio: {fileID: 8300000, guid: e000d28806cac144ba50b08a1bf217e9, type: 3}
+  interactObjectAnim: {fileID: 1053076475599293515, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  chapAudio: {fileID: 8300000, guid: 7f8b4cd408f0099469bfdd0bfa0fc7ea, type: 3}
   chapterMethodNames:
   - ChapterEleven
   chapterEvent:

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8ee6c16d3b21c4faa4726e678368a9, type: 3}
   m_Name: Chapter_10
   m_EditorClassIdentifier: 
-  interactObjectTag: phMeter
-  highlightObject: phMeter
-  interactObjectAnim: {fileID: 3534573848736688643, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
-  chapAudio: {fileID: 8300000, guid: c55d3fbedd80f7e4793b81234a3c1741, type: 3}
+  interactObjectTag: scaleKnobRight
+  highlightObject: scaleKnobRight
+  interactObjectAnim: {fileID: 6100139571335923458, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  chapAudio: {fileID: 8300000, guid: e000d28806cac144ba50b08a1bf217e9, type: 3}
   chapterMethodNames:
   - ChapterTen
   chapterEvent:

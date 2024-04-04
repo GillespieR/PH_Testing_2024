@@ -15,7 +15,7 @@ public class StoryManager : MonoBehaviour
     public GameObject globalDictionaryObject;
 
     //using this variable to hold the current position in the list
-    Chapters currentChapter;
+    public Chapters currentChapter;
     //Scriptable object list index variable. 
     public int currentChapterIndex = 0;
 
@@ -82,7 +82,7 @@ public class StoryManager : MonoBehaviour
         currentChapter.chapterEvent.Invoke();
         currentChapter.chapterEvent.RemoveAllListeners();
 
-        //highlightManager.StartHighlightCoroutine();
+        highlightManager.StartHighlightCoroutine();
     }
     private void Update()
     {
@@ -98,6 +98,7 @@ public class StoryManager : MonoBehaviour
 
         interactionManager.target = "No Tag";
         highlightManager.stopHighlight = true;
+        
         
 
         if (currentChapterIndex < simChapters.Count)

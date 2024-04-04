@@ -5,22 +5,28 @@ using UnityEngine;
 public class HighlightManager : MonoBehaviour
 {
 
-    StoryManager storyManager;    
+    StoryManager storyManager;
+    public InteractionManagerV2 interactionManager;
     public List<GameObject> glowGameObjects = new List<GameObject>();        
 
     public bool stopHighlight = true;
+    public bool endHighlightCoroutine = false;
 
     //could problem be here?
     string chapTargetTag;
     int currentChap;
 
     GameObject chapterGlowObject;
+    
 
     void Start()
     {
+
         storyManager = GameObject.FindWithTag("StoryManager").GetComponent<StoryManager>();
         chapTargetTag = storyManager.simChapters[storyManager.currentChapterIndex].interactObjectTag;
         currentChap = storyManager.currentChapterIndex;
+
+        interactionManager = storyManager.gameObjectDictionary["InteractionManager"].GetComponent<InteractionManagerV2>();
 
         foreach (GameObject go in storyManager.globalDictionaryObject.GetComponent<GlobalGameObjectDictionary>().assets)
         {
@@ -37,6 +43,12 @@ public class HighlightManager : MonoBehaviour
                 chapterGlowObject = glowObject;
                 Debug.Log("Chapter glow Object is " + chapterGlowObject.tag.ToString());
             }
+            /*
+            else 
+            {
+                chapterGlowObject = storyManager.gameObjectDictionary["WrongTarget"];
+            }
+            */
         }
 
         //chapterGlowObject = storyManager.gameObjectDictionary["Sludge_judge"];
@@ -55,6 +67,12 @@ public class HighlightManager : MonoBehaviour
                 chapterGlowObject = glowObject;
                 //Debug.Log("Chapter glow Object is " + chapterGlowObject.tag.ToString());
             }
+            /*
+            else
+            {
+                chapterGlowObject = storyManager.gameObjectDictionary["WrongTarget"];
+            }
+            */
         }
     }
 
@@ -69,25 +87,55 @@ public class HighlightManager : MonoBehaviour
     public IEnumerator StartHighlightCycle()
     {
         //float lerpTime = 2f;
-        //Debug.Log("Inside StartHighlightCycle Coroutine");
- 
+
+        
+
+        while (true) 
+        {
+            if(chapterGlowObject != null) 
+            {
+                break;
+            }
+            else 
+            {
+                Debug.Log("Waiting to populate glow object");
+            }
+            yield return null;
+        }
+        
+        //chapterGlowObject.GetComponent<Outline>().enabled = false;
+        Debug.Log("Inside StartHighlightCycle Coroutine");
+        Debug.Log("The value of chapterGlowObject is " + chapterGlowObject.name.ToString());
+
         while (true)
         {
 
-            //Debug.Log("chapterGlowObject.tag is " + chapterGlowObject.tag);
+            /*
+            if (interactionManager.target == storyManager.currentChapter.interactObjectTag) 
+            {
+                //chapterGlowObject.GetComponent<Outline>().enabled = false;
+                break;
+            }
+            else 
+            {
+
+            }
+            */
+
+            Debug.Log("chapterGlowObject.tag is " + chapterGlowObject.tag);
             if (chapterGlowObject.GetComponent<Outline>().enabled && !stopHighlight)
             {
                 //Debug.Log("Inside enable to disable outline, !stopHighlight");
                 yield return new WaitForSeconds(.5f);
                 chapterGlowObject.GetComponent<Outline>().enabled = false;
-            } 
+            }
             else if (chapterGlowObject.GetComponent<Outline>().enabled == false && !stopHighlight)
             {
                 //Debug.Log("Inside disable to enable outline, !stopHighlight");
                 yield return new WaitForSeconds(.5f);
                 chapterGlowObject.GetComponent<Outline>().enabled = true;
             }
-            
+
             if (chapterGlowObject.GetComponent<Outline>().enabled && stopHighlight)
             {
                 //Debug.Log("Inside enable to disable outline, stopHighlight");
@@ -102,16 +150,18 @@ public class HighlightManager : MonoBehaviour
             }
             //interactionManager.target == currentChapter.interactObjectTag
             yield return null;
-                               
+
             
             if (currentChap >= storyManager.simChapters.Count)
             {
                 Debug.Log("Breaking out of highlight loop");
                 break;
             }
+            
             yield return null;
             
         }
+
     }
 
     public IEnumerator MaterialFade(Material objMaterial) 

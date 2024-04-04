@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactObjectTag: phMeter
   highlightObject: phMeter
-  interactObjectAnim: {fileID: -7354721188533708165, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
-  chapAudio: {fileID: 8300000, guid: cfc690313e80fdf4ba2f9a6caab17b68, type: 3}
+  interactObjectAnim: {fileID: 3534573848736688643, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  chapAudio: {fileID: 8300000, guid: c55d3fbedd80f7e4793b81234a3c1741, type: 3}
   chapterMethodNames:
   - ChapterNine
   chapterEvent:

@@ -79,7 +79,7 @@ public class InteractionManagerV2 : MonoBehaviour
 
     public void DisableRaycastingCheck()
     {
-        AudioSource audioSource = storyManager.gameObjectDictionary["AudioManager"].GetComponent<AudioSource>();
+        //AudioSource audioSource = storyManager.gameObjectDictionary["AudioManager"].GetComponent<AudioSource>();
        
         GameObject blockRaycast = storyManager.gameObjectDictionary["BlockRaycast"];
         HighlightManager highlightMan = storyManager.gameObjectDictionary["HighlightManager"].GetComponent<HighlightManager>();
@@ -88,7 +88,7 @@ public class InteractionManagerV2 : MonoBehaviour
 
         //Debug.Log("Value of audioSource.isPlaying is " + audioSource.isPlaying.ToString());        
 
-
+        /*
         if (audioSource.isPlaying)
         {
             highlightMan.stopHighlight = true;
@@ -103,7 +103,8 @@ public class InteractionManagerV2 : MonoBehaviour
         {
             highlightMan.stopHighlight = false;
             blockRaycast.SetActive(false);
-        }                        
+        } 
+        */
         
     }
 }
