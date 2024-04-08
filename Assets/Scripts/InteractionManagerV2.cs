@@ -83,6 +83,7 @@ public class InteractionManagerV2 : MonoBehaviour
        
         GameObject blockRaycast = storyManager.gameObjectDictionary["BlockRaycast"];
         HighlightManager highlightMan = storyManager.gameObjectDictionary["HighlightManager"].GetComponent<HighlightManager>();
+        AudioSource audioSource = storyManager.gameObjectDictionary["AudioManager"].GetComponent<AudioSource>();
 
         Animator sceneAnimator = storyManager.gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
 
@@ -91,17 +92,17 @@ public class InteractionManagerV2 : MonoBehaviour
         /*
         if (audioSource.isPlaying)
         {
-            highlightMan.stopHighlight = true;
+            
             blockRaycast.SetActive(true);
         }
         else if ((sceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) || sceneAnimator.IsInTransition(0)) 
         {
-            highlightMan.stopHighlight = true;
+            
             blockRaycast.SetActive(true);
         }
         else 
         {
-            highlightMan.stopHighlight = false;
+            
             blockRaycast.SetActive(false);
         } 
         */

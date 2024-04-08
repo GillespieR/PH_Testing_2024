@@ -7,6 +7,7 @@ public class HighlightManager : MonoBehaviour
 
     StoryManager storyManager;
     public InteractionManagerV2 interactionManager;
+    AudioManager audioManager;
     public List<GameObject> glowGameObjects = new List<GameObject>();        
 
     public bool stopHighlight = true;
@@ -27,14 +28,9 @@ public class HighlightManager : MonoBehaviour
         currentChap = storyManager.currentChapterIndex;
 
         interactionManager = storyManager.gameObjectDictionary["InteractionManager"].GetComponent<InteractionManagerV2>();
+        audioManager = storyManager.gameObjectDictionary["AudioManager"].GetComponent<AudioManager>();
 
-        foreach (GameObject go in storyManager.globalDictionaryObject.GetComponent<GlobalGameObjectDictionary>().assets)
-        {
-            if (go.GetComponent<Outline>()) 
-            {
-                glowGameObjects.Add(go);
-            }
-        }
+        PopulateGlowGameObjects();
 
         foreach (GameObject glowObject in glowGameObjects)
         {
@@ -74,6 +70,7 @@ public class HighlightManager : MonoBehaviour
             }
             */
         }
+
     }
 
     public void StartHighlightCoroutine() 
@@ -83,88 +80,117 @@ public class HighlightManager : MonoBehaviour
         
     }
 
+    public void PopulateGlowGameObjects() 
+    {
 
+        foreach (GameObject go in storyManager.globalDictionaryObject.GetComponent<GlobalGameObjectDictionary>().assets)
+        {
+            if (go.GetComponent<Outline>())
+            {
+                glowGameObjects.Add(go);
+            }
+        }
+    }
     public IEnumerator StartHighlightCycle()
     {
-        //float lerpTime = 2f;
 
         
+        //float lerpTime = 2f;        
 
-        while (true) 
+        while (true)
         {
-            if(chapterGlowObject != null) 
+            if (chapterGlowObject != null)
             {
                 break;
             }
-            else 
+            else
             {
                 Debug.Log("Waiting to populate glow object");
             }
             yield return null;
         }
-        
+
         //chapterGlowObject.GetComponent<Outline>().enabled = false;
         Debug.Log("Inside StartHighlightCycle Coroutine");
         Debug.Log("The value of chapterGlowObject is " + chapterGlowObject.name.ToString());
+                
 
         while (true)
         {
 
-            /*
-            if (interactionManager.target == storyManager.currentChapter.interactObjectTag) 
-            {
-                //chapterGlowObject.GetComponent<Outline>().enabled = false;
-                break;
-            }
-            else 
-            {
 
-            }
-            */
+            if (!stopHighlight) 
+            {
+                if (!audioManager.audioSource.isPlaying)
+                {
+                    chapterGlowObject.GetComponent<Outline>().enabled = true;
+                }
 
-            Debug.Log("chapterGlowObject.tag is " + chapterGlowObject.tag);
-            if (chapterGlowObject.GetComponent<Outline>().enabled && !stopHighlight)
-            {
-                //Debug.Log("Inside enable to disable outline, !stopHighlight");
-                yield return new WaitForSeconds(.5f);
-                chapterGlowObject.GetComponent<Outline>().enabled = false;
-            }
-            else if (chapterGlowObject.GetComponent<Outline>().enabled == false && !stopHighlight)
-            {
-                //Debug.Log("Inside disable to enable outline, !stopHighlight");
-                yield return new WaitForSeconds(.5f);
-                chapterGlowObject.GetComponent<Outline>().enabled = true;
+                /*
+                if (!stopHighlight)
+                {
+
+                    chapterGlowObject.GetComponent<Outline>().enabled = true;
+
+                }            
+                */
+
+                if (interactionManager.target == storyManager.currentChapter.interactObjectTag)
+                {
+                    chapterGlowObject.GetComponent<Outline>().enabled = false;
+                    stopHighlight = true;
+                    break;
+                }                
             }
 
-            if (chapterGlowObject.GetComponent<Outline>().enabled && stopHighlight)
-            {
-                //Debug.Log("Inside enable to disable outline, stopHighlight");
-                yield return new WaitForSeconds(.5f);
-                chapterGlowObject.GetComponent<Outline>().enabled = false;
-            }
-            else if (chapterGlowObject.GetComponent<Outline>().enabled == false && stopHighlight)
-            {
-                //Debug.Log("Inside disable to enable outline,  stopHighlight");
-                yield return new WaitForSeconds(.5f);
-                chapterGlowObject.GetComponent<Outline>().enabled = false;
-            }
-            //interactionManager.target == currentChapter.interactObjectTag
-            yield return null;
 
-            
-            if (currentChap >= storyManager.simChapters.Count)
-            {
-                Debug.Log("Breaking out of highlight loop");
-                break;
-            }
-            
             yield return null;
             
+
+                /*
+                if (chapterGlowObject.GetComponent<Outline>().enabled && !stopHighlight)
+                {
+                    //Debug.Log("Inside enable to disable outline, !stopHighlight");
+                    yield return new WaitForSeconds(.5f);
+                    chapterGlowObject.GetComponent<Outline>().enabled = true;
+                }
+                else if (chapterGlowObject.GetComponent<Outline>().enabled == false && !stopHighlight)
+                {
+                    //Debug.Log("Inside disable to enable outline, !stopHighlight");
+                    yield return new WaitForSeconds(.5f);
+                    chapterGlowObject.GetComponent<Outline>().enabled = true;
+                }
+
+                if (chapterGlowObject.GetComponent<Outline>().enabled && stopHighlight)
+                {
+                    //Debug.Log("Inside enable to disable outline, stopHighlight");
+                    yield return new WaitForSeconds(.5f);
+                    chapterGlowObject.GetComponent<Outline>().enabled = false;
+                }
+                else if (chapterGlowObject.GetComponent<Outline>().enabled == false && stopHighlight)
+                {
+                    //Debug.Log("Inside disable to enable outline,  stopHighlight");
+                    yield return new WaitForSeconds(.5f);
+                    chapterGlowObject.GetComponent<Outline>().enabled = false;
+                }
+                //interactionManager.target == currentChapter.interactObjectTag
+                yield return null;
+
+
+                if (currentChap >= storyManager.simChapters.Count)
+                {
+                    Debug.Log("Breaking out of highlight loop");
+                    break;
+                }
+
+                yield return null;
+                */
+            
+
         }
-
     }
 
-    public IEnumerator MaterialFade(Material objMaterial) 
+    IEnumerator MaterialFade(Material objMaterial) 
     {
         for (float f = 1f; f >= 0; f -= 0.001f)
         {

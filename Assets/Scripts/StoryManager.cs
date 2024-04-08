@@ -82,7 +82,7 @@ public class StoryManager : MonoBehaviour
         currentChapter.chapterEvent.Invoke();
         currentChapter.chapterEvent.RemoveAllListeners();
 
-        highlightManager.StartHighlightCoroutine();
+        
     }
     private void Update()
     {
@@ -93,6 +93,7 @@ public class StoryManager : MonoBehaviour
 
     public void NextChapter() 
     {
+        //StopAllCoroutines();
         Debug.Log("Inside StoryManager.NextChapter()");
         
 
@@ -113,6 +114,7 @@ public class StoryManager : MonoBehaviour
                 functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
                 currentChapter.chapterEvent.Invoke();
                 currentChapter.chapterEvent.RemoveAllListeners();
+                
                 //await Task.Yield();
         }
 
@@ -122,43 +124,53 @@ public class StoryManager : MonoBehaviour
 
     }
 
+    public void PopulateGlowGameObjects() 
+    {
+        highlightManager.PopulateGlowGameObjects();
+    }
+
     public void IntroChapter() 
     {
-
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(IntroChapterCoroutine());
     }
 
     public void ChapterOne() 
     {
-        
-       
+
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterOneCouroutine());
        
     }
 
     public void ChapterTwo()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwoCouroutine());
 
     }
 
     public void ChapterThree()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterThreeCouroutine());
 
     }
     public void ChapterFour()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFourCouroutine());
 
     }
     public void ChapterFive()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFiveCouroutine());
 
     }
     public void ChapterSix()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSixCouroutine());
 
     }
@@ -166,106 +178,123 @@ public class StoryManager : MonoBehaviour
     public void ChapterSeven()
     {
 
-
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSevenCouroutine());
 
     }
 
     public void ChapterEight()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterEightCouroutine());
 
     }
 
     public void ChapterNine()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterNineCouroutine());
 
     }
     public void ChapterTen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTenCouroutine());
 
     }
     public void ChapterEleven()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterElevenCouroutine());
 
     }
     public void ChapterTwelve()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwelveCouroutine());
 
     }
 
     public void ChapterThirteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterThirteenCouroutine());
 
     }
 
     public void ChapterFourteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFourteenCouroutine());
 
     }
 
     public void ChapterFifteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFifteenCouroutine());
 
     }
 
     public void ChapterSixteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSixteenCouroutine());
 
     }
 
     public void ChapterSeventeen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSeventeenCouroutine());
 
     }
 
     public void ChapterEighteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterEighteenCouroutine());
 
     }
 
     public void ChapterNineteen()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterNineteenCouroutine());
 
     }
 
     public void ChapterTwenty()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyCouroutine());
 
     }
 
     public void ChapterTwentyOne()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyOneCouroutine());
 
     }
 
     public void ChapterTwentyTwo()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyTwoCouroutine());
 
     }
 
     public void ChapterTwentyThree()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyThreeCouroutine());
 
     }
 
     public void ChapterTwentyFour()
     {
+        highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyFourCouroutine());
 
     }
@@ -274,10 +303,12 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Inside intro chapter");
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);        
         audioManager.PlayAudio();
+        //PopulateGlowGameObjects();
+        highlightManager.stopHighlight = false;
 
-        
+
         while (true) 
         {
             if (audioSource.isPlaying)
@@ -290,7 +321,7 @@ public class StoryManager : MonoBehaviour
 
             yield return null;
         }
-
+        
         NextChapter();
         
 
@@ -304,9 +335,10 @@ public class StoryManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        
-        
-        
+        highlightManager.stopHighlight = false;
+
+
+
         while (true) 
         {
             if (interactionManager.target == currentChapter.interactObjectTag)
@@ -332,8 +364,8 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        
-        
+        highlightManager.stopHighlight = false;
+
 
         while (true)
         {
@@ -363,6 +395,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -389,6 +422,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -414,6 +448,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -440,6 +475,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log(audioSource.clip.name);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -465,6 +501,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -490,6 +527,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -515,6 +553,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -540,6 +579,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -565,6 +605,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -590,6 +631,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -615,6 +657,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -640,6 +683,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -665,6 +709,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -690,6 +735,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -715,6 +761,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -740,6 +787,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -765,6 +813,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -790,6 +839,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -815,6 +865,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -840,6 +891,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -865,6 +917,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {
@@ -890,6 +943,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
+        highlightManager.stopHighlight = false;
 
         while (true)
         {

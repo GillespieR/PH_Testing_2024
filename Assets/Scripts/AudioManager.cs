@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     StoryManager storyManager;
-    AudioSource audioSource;
+    public AudioSource audioSource;
 
     public List<AudioClip> audioClips = new List<AudioClip>();
 
