@@ -9,13 +9,16 @@ public class AudioManager : MonoBehaviour
 
     public List<AudioClip> audioClips = new List<AudioClip>();
 
+    public List<float> clipLengths = new List<float>();
+
+    public float clipLength;
 
     // Start is called before the first frame update
     void Start()
     {
         storyManager = GameObject.FindWithTag("StoryManager").GetComponent<StoryManager>();
         audioSource = gameObject.GetComponent<AudioSource>();
-
+        
     }
 
     // Update is called once per frame
@@ -24,10 +27,19 @@ public class AudioManager : MonoBehaviour
         if (!audioSource.isPlaying) 
         {
             SetAudio();
+            GetClipLength();
         }
         
     }
 
+    public void GetClipLength() 
+    {
+        clipLength = audioSource.clip.length;
+        clipLengths.Add(clipLength);
+
+        Debug.Log(audioSource.clip.name.ToString() + " is " + clipLength + " seconds long");
+
+    }
     public void SetAudio() 
     {
         int currentChapter = storyManager.currentChapterIndex;

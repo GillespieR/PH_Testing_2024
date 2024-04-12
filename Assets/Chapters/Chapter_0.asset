@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactObjectTag: phMeter
   highlightObject: WrongTarget
-  interactObjectAnim: {fileID: 9067093048684652814, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
+  interactObjectAnim: {fileID: 4933150712360648588, guid: 65dc38ba4165a6d4388936d19f0468f7, type: 3}
   chapAudio: {fileID: 8300000, guid: 618ebed3421e74b4a8cd1a755e4882c1, type: 3}
   chapterMethodNames:
   - IntroChapter

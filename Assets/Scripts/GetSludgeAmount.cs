@@ -26,7 +26,7 @@ public class GetSludgeAmount : MonoBehaviour
         {
             markNumber = float.Parse(other.gameObject.name);
             Debug.Log("Value of mark number is " + markNumber);
-            storyManager.sludgeValue = markNumber;
+            //storyManager.sludgeValue = markNumber;
         }
     }
 }

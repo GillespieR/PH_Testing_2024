@@ -27,7 +27,8 @@ public class StoryManager : MonoBehaviour
     AudioManager audioManager;
     InteractionManagerV2 interactionManager;
     HighlightManager highlightManager;
-    
+    AnimationManager animationManager;
+
 
     public Dictionary<string, GameObject> gameObjectDictionary;
     Outline outline;
@@ -44,8 +45,12 @@ public class StoryManager : MonoBehaviour
     GameObject SJSludge;
     GameObject sludgeRandomized;
 
-    public float userReadingInputValue;
-    public float sludgeValue;
+    //public float userReadingInputValue;
+    //public float sludgeValue;
+    //public List<float> animationDelays = new List<float>();
+    //public float elapsedTime;
+
+    //public bool startTimer = false;
     private void Awake()
     {        
 
@@ -61,8 +66,8 @@ public class StoryManager : MonoBehaviour
         camController = gameObjectDictionary["CameraManager"].gameObject.GetComponent<CameraController>();
         audioManager = gameObjectDictionary["AudioManager"].gameObject.GetComponent<AudioManager>();
         interactionManager = gameObjectDictionary["InteractionManager"].gameObject.GetComponent<InteractionManagerV2>();
-        highlightManager = gameObjectDictionary["HighlightManager"].gameObject.GetComponent<HighlightManager>();        
-
+        highlightManager = gameObjectDictionary["HighlightManager"].gameObject.GetComponent<HighlightManager>();
+        animationManager = gameObjectDictionary["AnimationManager"].gameObject.GetComponent<AnimationManager>();
 
         blockRaycast = gameObjectDictionary["BlockRaycast"].gameObject;
         sceneAnimator = gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
@@ -82,12 +87,20 @@ public class StoryManager : MonoBehaviour
         currentChapter.chapterEvent.Invoke();
         currentChapter.chapterEvent.RemoveAllListeners();
 
-        
+        //elapsedTime = 0f;        
     }
     private void Update()
     {
+
+
         //Debug.Log("currently at Chapter: " + currentChapterIndex);
+        /*
         
+        if (startTimer) 
+        {
+            elapsedTime += Time.deltaTime;
+        }
+        */
 
     }
 
@@ -131,6 +144,7 @@ public class StoryManager : MonoBehaviour
 
     public void IntroChapter() 
     {
+        
         highlightManager.StartHighlightCoroutine();
         StartCoroutine(IntroChapterCoroutine());
     }
@@ -300,9 +314,12 @@ public class StoryManager : MonoBehaviour
     }
     IEnumerator IntroChapterCoroutine() 
     {
+        //startTimer = true;
+
         Debug.Log("Inside intro chapter");
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
 
+        //Debug.Log("Current value of startTimer is" + startTimer);
         yield return new WaitForSeconds(1f);        
         audioManager.PlayAudio();
         //PopulateGlowGameObjects();
@@ -311,10 +328,13 @@ public class StoryManager : MonoBehaviour
 
         while (true) 
         {
+            
+
+            
             if (audioSource.isPlaying)
             {
-                sceneAnimator.Play(currentChapter.interactObjectAnim.name);
-                yield return new WaitForSeconds(audioSource.clip.length);
+                Debug.Log("Inside audio clip check in story manager");
+                yield return new WaitForSeconds(audioSource.clip.length);                
                 break;                
 
             }
@@ -336,7 +356,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
         highlightManager.stopHighlight = false;
-
+        animationManager.PlayDelayed();
 
 
         while (true) 
@@ -951,7 +971,7 @@ public class StoryManager : MonoBehaviour
             {
 
                 yield return new WaitForSeconds(.5f);
-                sceneAnimator.Play(currentChapter.interactObjectAnim.name);
+                //sceneAnimator.Play(currentChapter.interactObjectAnim.name);
                 yield return new WaitForSeconds(4f);
                 break;
 
@@ -959,7 +979,7 @@ public class StoryManager : MonoBehaviour
             yield return null;
         }
         //SJSludge.transform.localScale = new Vector3(0.0518035777f, 0f, 0.0518035777f);        
-        NextChapter();
+        //NextChapter();
         yield return null;
     }
     public void PopulateDictionary() 

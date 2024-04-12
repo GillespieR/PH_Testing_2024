@@ -9,19 +9,58 @@ public class AnimationManager : MonoBehaviour
     Animator targetAnimator;
 
     public List<AnimationClip> animClips = new List<AnimationClip>();
+    public List<float> animationDelays = new List<float>();
 
+
+    public float elapsedTime;
+    public bool startTimer = false;
     // Start is called before the first frame update
     void Start()
     {
         sM = GameObject.FindWithTag("StoryManager").GetComponent<StoryManager>();
+        targetAnimator = sM.gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
+
+        startTimer = false;
+        elapsedTime = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (startTimer) 
+        {
+
+            elapsedTime += Time.deltaTime;
+        }
     }
 
+    public void PlayDelayed() 
+    {
+        startTimer = true;
+        Debug.Log("Value of startTimer is " + startTimer.ToString());        
+
+        StartCoroutine(DelayAnimationCoroutine());
+    }
+
+    IEnumerator DelayAnimationCoroutine() 
+    {
+        while (true)
+        {
+
+            if (elapsedTime == animationDelays[0] || elapsedTime > animationDelays[0])
+            {
+                Debug.Log("Value of elapsedTime is " + elapsedTime);
+                Debug.Log("Value of animationDelays[0] is " + animationDelays[0]);
+                yield return new WaitForSeconds(animationDelays[0]);
+                targetAnimator.Play(sM.currentChapter.interactObjectAnim.name);
+                yield return new WaitForSeconds(sM.currentChapter.interactObjectAnim.length);
+                break;
+            }
+
+            yield return null;
+        }
+    }
     /*
     public void SetAnimClip(Animator targetAnim) 
     {
@@ -54,11 +93,5 @@ public class AnimationManager : MonoBehaviour
         }
     }*/
 
-    public void PlayAnimation() 
-    {
-        targetAnimator = sM.gameObjectDictionary["SludgeJudge"].GetComponent<Animator>();
 
-        
-
-    }
 }

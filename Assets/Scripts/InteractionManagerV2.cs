@@ -89,23 +89,20 @@ public class InteractionManagerV2 : MonoBehaviour
 
         //Debug.Log("Value of audioSource.isPlaying is " + audioSource.isPlaying.ToString());        
 
-        /*
+        
         if (audioSource.isPlaying)
-        {
-            
+        {            
             blockRaycast.SetActive(true);
         }
         else if ((sceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1) || sceneAnimator.IsInTransition(0)) 
-        {
-            
+        {            
             blockRaycast.SetActive(true);
         }
         else 
-        {
-            
+        {           
             blockRaycast.SetActive(false);
         } 
-        */
+        
         
     }
 }
