@@ -35,6 +35,11 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    public void PopulateAnimationDelayList() 
+    {
+        
+    }
+
     public void PlayDelayed() 
     {
         startTimer = true;
@@ -45,21 +50,16 @@ public class AnimationManager : MonoBehaviour
 
     IEnumerator DelayAnimationCoroutine() 
     {
-        while (true)
-        {
 
-            if (elapsedTime == animationDelays[0] || elapsedTime > animationDelays[0])
-            {
-                Debug.Log("Value of elapsedTime is " + elapsedTime);
-                Debug.Log("Value of animationDelays[0] is " + animationDelays[0]);
-                yield return new WaitForSeconds(animationDelays[0]);
-                targetAnimator.Play(sM.currentChapter.interactObjectAnim.name);
-                yield return new WaitForSeconds(sM.currentChapter.interactObjectAnim.length);
-                break;
-            }
-
-            yield return null;
-        }
+        Debug.Log("Value of elapsedTime is " + elapsedTime);
+        Debug.Log("Value of animationDelays[0] is " + animationDelays[sM.currentChapterIndex]);
+        yield return new WaitForSeconds(animationDelays[sM.currentChapterIndex]);                
+        //overload/check to be able to pass name of the animation clip you want to delay so its not
+        //always tied to the chapters animation - iterate to work for multiple animations in future
+        targetAnimator.Play(sM.currentChapter.interactObjectAnim.name);
+        Debug.Log("Current animation is " + sM.currentChapter.interactObjectAnim.name.ToString());
+        yield return new WaitForSeconds(sM.currentChapter.interactObjectAnim.length);
+        
     }
     /*
     public void SetAnimClip(Animator targetAnim) 

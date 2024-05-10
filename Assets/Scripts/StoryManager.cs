@@ -28,6 +28,7 @@ public class StoryManager : MonoBehaviour
     InteractionManagerV2 interactionManager;
     HighlightManager highlightManager;
     AnimationManager animationManager;
+    UIManager uiManager;
 
 
     public Dictionary<string, GameObject> gameObjectDictionary;
@@ -68,6 +69,7 @@ public class StoryManager : MonoBehaviour
         interactionManager = gameObjectDictionary["InteractionManager"].gameObject.GetComponent<InteractionManagerV2>();
         highlightManager = gameObjectDictionary["HighlightManager"].gameObject.GetComponent<HighlightManager>();
         animationManager = gameObjectDictionary["AnimationManager"].gameObject.GetComponent<AnimationManager>();
+        uiManager = gameObjectDictionary["UIManager"].gameObject.GetComponent<UIManager>();
 
         blockRaycast = gameObjectDictionary["BlockRaycast"].gameObject;
         sceneAnimator = gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
@@ -324,7 +326,7 @@ public class StoryManager : MonoBehaviour
         audioManager.PlayAudio();
         //PopulateGlowGameObjects();
         highlightManager.stopHighlight = false;
-
+        animationManager.PlayDelayed();
 
         while (true) 
         {
@@ -356,7 +358,7 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
         highlightManager.stopHighlight = false;
-        animationManager.PlayDelayed();
+        
 
 
         while (true) 

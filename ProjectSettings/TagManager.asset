@@ -18,6 +18,7 @@ TagManager:
   - ph4BufferSolution
   - phBufferSolution
   - sampleBeaker
+  - UI
   layers:
   - Default
   - TransparentFX
