@@ -22,3 +22,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: To continue the calibration process, we will now move on to the ph4 buffer.
+    Click on the 4 buffer to remove the lid.
+  shortenedText: Click on ph4 buffer solution

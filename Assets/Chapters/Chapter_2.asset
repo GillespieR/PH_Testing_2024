@@ -22,3 +22,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200AClick on the squeeze bottle to rinse the pH electrode with distilled
+    water."
+  shortenedText: Click on squeeze bottle

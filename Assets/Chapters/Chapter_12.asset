@@ -22,3 +22,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200AAfter testing each sample, you must rinse the electrode with distilled
+    water. You may do so by clicking on the squeeze bottle."
+  shortenedText: Click on squeeze bottle

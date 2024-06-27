@@ -22,3 +22,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200AIf the correct buffer pH readings are not displayed during calibration,
+    there may be a problem with the meter or electrode. In this case, follow the
+    instruction manuals to correct the problem before proceeding with sample analysis.
+    We will now proceed with the sample analysis as the pH meter has been properly
+    calibrated. To begin, you must shake the sample bottle to ensure that it is properly
+    mixed. Click on the bottle now to do so."
+  shortenedText: Click on sample bottle

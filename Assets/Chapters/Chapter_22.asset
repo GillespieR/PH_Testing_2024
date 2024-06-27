@@ -22,3 +22,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: Click on the beaker containing the sample to place it on the stirring
+    plate.
+  shortenedText: Click on the beaker

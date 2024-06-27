@@ -22,3 +22,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200AIf you have multiple samples to analyze, repeat this same process
+    for each sample, making sure to rinse the electrode with distilled water after
+    each sample. Since we only had one sample to analyze, we are now finished with
+    this process. Click on the pH meter to turn it off."
+  shortenedText: 'Click on the phmeter '

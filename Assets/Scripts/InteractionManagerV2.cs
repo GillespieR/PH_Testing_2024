@@ -16,7 +16,7 @@ public class InteractionManagerV2 : MonoBehaviour
 
     GameObject wrongTarget;
 
-
+    
     private void Awake()
     {
         storyManager = GameObject.FindWithTag("StoryManager").GetComponent<StoryManager>();
@@ -39,7 +39,7 @@ public class InteractionManagerV2 : MonoBehaviour
     private void Update()
     {
 
-        DisableRaycastingCheck();
+        //DisableRaycastingCheck();
       
         if (Input.GetMouseButtonDown(0))
         {

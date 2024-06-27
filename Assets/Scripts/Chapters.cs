@@ -20,6 +20,9 @@ public class Chapters : ScriptableObject
 
     public bool chapterComplete = false;
 
+    public string fullText;
+    public string shortenedText;
+
     // Start is called before the first frame update
     void Start()
     {

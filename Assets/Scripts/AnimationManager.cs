@@ -7,52 +7,80 @@ public class AnimationManager : MonoBehaviour
 
     StoryManager sM;
     Animator targetAnimator;
+    SimulationTimer simTimer;
 
     public List<AnimationClip> animClips = new List<AnimationClip>();
     public List<float> animationDelays = new List<float>();
 
 
-    public float elapsedTime;
-    public bool startTimer = false;
+    public bool animationPlaying = false;
+    
     // Start is called before the first frame update
     void Start()
     {
         sM = GameObject.FindWithTag("StoryManager").GetComponent<StoryManager>();
         targetAnimator = sM.gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
+        simTimer = sM.GetComponent<SimulationTimer>();
 
-        startTimer = false;
-        elapsedTime = 0f;
+        // targetAnimator.StartPlayback();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (startTimer) 
-        {
 
-            elapsedTime += Time.deltaTime;
+    }
+
+    public void PopulateAnimationClipList() 
+    {
+
+
+        //I want to get all the animation clips in each chapter scriptable object and populate animClips list using a loop. Will clips work or do I have to use states?
+        //I also want to make a corresponding list which would be a list of delays as floats
+        foreach (AnimationClip _anim in animClips)
+        {
+            /*
+            _anim = sM.currentChapter.interactObjectAnim;
+            animClips[_anim] = sM.currentChapter.interactObjectAnim;
+            */
         }
     }
 
-    public void PopulateAnimationDelayList() 
+    public void PlayDelayed() 
+    {       
+        Debug.Log("Value of startTimer is " + simTimer.startTimer.ToString());        
+        StartCoroutine(DelayAnimationCoroutine());
+    }
+
+    public void PauseAnimation() 
     {
+
+        simTimer.PauseTimer();
+        targetAnimator.speed = 0;
         
     }
 
-    public void PlayDelayed() 
+    public void ResumeAnimation() 
     {
-        startTimer = true;
-        Debug.Log("Value of startTimer is " + startTimer.ToString());        
+        //know if this will resume animation where it left off?
+        simTimer.ResumeTimer();
+        targetAnimator.speed = 1;
+        //targetAnimator.Play(sM.currentChapter.interactObjectAnim.ToString());
+    }
 
-        StartCoroutine(DelayAnimationCoroutine());
+    public void ResetAnimation()     
+    {
+
+        targetAnimator.Play(sM.currentChapter.interactObjectAnim.ToString(), -1);
     }
 
     IEnumerator DelayAnimationCoroutine() 
     {
 
-        Debug.Log("Value of elapsedTime is " + elapsedTime);
-        Debug.Log("Value of animationDelays[0] is " + animationDelays[sM.currentChapterIndex]);
+        Debug.Log("Value of elapsedTime is " + simTimer.elapsedTime);
+        Debug.Log("Value of current chapter animation delay is " + animationDelays[sM.currentChapterIndex]);
+
         yield return new WaitForSeconds(animationDelays[sM.currentChapterIndex]);                
         //overload/check to be able to pass name of the animation clip you want to delay so its not
         //always tied to the chapters animation - iterate to work for multiple animations in future

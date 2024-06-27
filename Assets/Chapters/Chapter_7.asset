@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "Click on the stirring plate\u2019s right knob to turn it on"
+  shortenedText: Click on stirring plate knob

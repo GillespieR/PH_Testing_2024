@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: Click on the graduated cylinder to place it in the proper position.
+  shortenedText: Click on graduate cylinder

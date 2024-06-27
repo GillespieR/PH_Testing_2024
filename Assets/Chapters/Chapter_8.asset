@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: Click on the pH meter to place the electrode into the beaker
+  shortenedText: Click on pH meter

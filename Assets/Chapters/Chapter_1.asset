@@ -22,3 +22,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200ApH is measured on a scale from 0 to 14. A pH of 7 is considered
+    neutral. Any pH below 7 is acidic, while a pH reading above 7 is basic or alkaline.
+    The difference between each pH unit is a tenfold value. For instance, a pH of
+    8 is 10 times more basic than a pH of 7 and a pH of 4 is 100 times more acidic
+    than a pH of 6.  The most accurate method to measure pH is with a pH meter and
+    electrode. pH analysis should be completed as soon as possible after sample collection.
+    We will now begin the pH sample analysis tutorial. To begin, click on the pH
+    meter to turn it on. "
+  shortenedText: Click on pH meter

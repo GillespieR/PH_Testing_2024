@@ -22,3 +22,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: pH is one of the most commonly measured parameters in both water and
+    wastewater treatment. pH measures the concentration of hydrogen ions in a solution
+    and tells the water or wastewater operator how acidic or how basic the solution
+    is. If the sample contains a higher number of hydrogen ions, the solution is
+    acidic. By contrast, if the sample contains a lower number of hydrogen ions,
+    the sample is basic.
+  shortenedText: Listen to audio

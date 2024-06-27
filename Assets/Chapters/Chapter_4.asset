@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: 'Click on the pH7 buffer bottle to replace the lid. '
+  shortenedText: Click on pH7 buffer bottle

@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: Click the pH meter again to remove the electrode from the beaker.
+  shortenedText: Click on pH meter

@@ -22,3 +22,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200ABefore the pH of a sample can be accurately determined, the pH
+    meter must first be calibrated using a two point calibration. If you anticipate
+    a more acidic sample, calibrate the meter with buffers of pH 4 and pH 7. If you
+    are expecting a more basic sample, calibrate with buffers of pH 7 and pH 10.
+    It is important to always use fresh and used, unexpired pH buffers for calibration. 
+    To start the calibration process we will begin with the pH 7 buffer. Click on
+    the pH 7 buffer to remove the lid. "
+  shortenedText: Click on pH7 buffer bottle

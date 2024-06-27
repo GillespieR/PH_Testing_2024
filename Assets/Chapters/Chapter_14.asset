@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: Next click on the ph4 buffer to pour its contents into the beaker.
+  shortenedText: Click on ph4 buffer solution

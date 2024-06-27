@@ -29,6 +29,7 @@ public class StoryManager : MonoBehaviour
     HighlightManager highlightManager;
     AnimationManager animationManager;
     UIManager uiManager;
+    SimulationTimer simTimer;
 
 
     public Dictionary<string, GameObject> gameObjectDictionary;
@@ -46,6 +47,10 @@ public class StoryManager : MonoBehaviour
     GameObject SJSludge;
     GameObject sludgeRandomized;
 
+    public bool isPaused = false;
+    public bool hasBegun = false;
+
+    //public float chapterTransitionTime;
     //public float userReadingInputValue;
     //public float sludgeValue;
     //public List<float> animationDelays = new List<float>();
@@ -70,6 +75,7 @@ public class StoryManager : MonoBehaviour
         highlightManager = gameObjectDictionary["HighlightManager"].gameObject.GetComponent<HighlightManager>();
         animationManager = gameObjectDictionary["AnimationManager"].gameObject.GetComponent<AnimationManager>();
         uiManager = gameObjectDictionary["UIManager"].gameObject.GetComponent<UIManager>();
+        simTimer = gameObject.GetComponent<SimulationTimer>();
 
         blockRaycast = gameObjectDictionary["BlockRaycast"].gameObject;
         sceneAnimator = gameObjectDictionary["Complete_Set_Animated"].GetComponent<Animator>();
@@ -82,13 +88,19 @@ public class StoryManager : MonoBehaviour
         }
 
         // currentChapterIndex = 0;        
-
         currentChapter = simChapters[currentChapterIndex];
+
 
         functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
         currentChapter.chapterEvent.Invoke();
         currentChapter.chapterEvent.RemoveAllListeners();
 
+        
+
+        hasBegun = true;
+        //audioManager.SetAudio();
+
+        //PauseStoryCheck();
         //elapsedTime = 0f;        
     }
     private void Update()
@@ -103,7 +115,7 @@ public class StoryManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
         */
-
+        
     }
 
     public void NextChapter() 
@@ -113,8 +125,7 @@ public class StoryManager : MonoBehaviour
         
 
         interactionManager.target = "No Tag";
-        highlightManager.stopHighlight = true;
-        
+        highlightManager.StopHighlight();
         
 
         if (currentChapterIndex < simChapters.Count)
@@ -125,6 +136,7 @@ public class StoryManager : MonoBehaviour
                 currentChapterIndex++;
                 //currentChapterIndex = currentChapterIndex +1;
                 currentChapter = simChapters[currentChapterIndex];
+                highlightManager.SetChapterHighlightObject(currentChapter.highlightObject);
                 //subscribe chapter methods
                 functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
                 currentChapter.chapterEvent.Invoke();
@@ -135,58 +147,103 @@ public class StoryManager : MonoBehaviour
 
 
         Debug.Log("Chaper Index is " + currentChapterIndex);
+        //audioManager.SetAudio();
         //Debug.Log("At end of NextChapter()");
 
     }
 
-    public void PopulateGlowGameObjects() 
+    public void PreviousChapter() 
     {
-        highlightManager.PopulateGlowGameObjects();
+        Debug.Log("Inside StoryManager.PreviousChapter()");
+        interactionManager.target = "No Tag";
+        highlightManager.StopHighlight();
+        isPaused = true;
+
+        if (currentChapterIndex > 0) 
+        {
+            //currentChapter.chapterEvent.RemoveAllListeners();
+            currentChapterIndex = currentChapterIndex - 1;
+            currentChapter = simChapters[currentChapterIndex];
+            highlightManager.SetChapterHighlightObject(currentChapter.highlightObject);
+            highlightManager.StopHighlight();
+            animationManager.ResetAnimation();
+            //subscribe chapter methods
+            functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
+            currentChapter.chapterEvent.Invoke();
+            currentChapter.chapterEvent.RemoveAllListeners();
+            isPaused = false;
+            /*currentChapter = simChapters[currentChapterIndex - 1];
+            highlightManager.SetChapterHighlightObject(currentChapter.highlightObject);
+            //subscribe chapter methods
+            functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
+            currentChapter.chapterEvent.Invoke();
+            currentChapter.chapterEvent.RemoveAllListeners();*/
+        }
+        else if(currentChapterIndex == 0) 
+        {
+            //currentChapter.chapterEvent.RemoveAllListeners();
+            currentChapter = simChapters[currentChapterIndex];
+            highlightManager.SetChapterHighlightObject(currentChapter.highlightObject);
+            highlightManager.StopHighlight();
+            animationManager.ResetAnimation();
+            //subscribe chapter methods
+            functionDictionary.GetComponent<GlobalActionDictionary>().SubscribeChapterMethods();
+            currentChapter.chapterEvent.Invoke();
+            currentChapter.chapterEvent.RemoveAllListeners();
+            isPaused = false;
+
+        }
+
+        Debug.Log("Chaper Index is " + currentChapterIndex);
+    }
+    public void PauseStoryCheck(int state) 
+    {
+        StartCoroutine(PauseStoryCheckCo(state));
     }
 
     public void IntroChapter() 
     {
         
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(IntroChapterCoroutine());
     }
 
     public void ChapterOne() 
     {
 
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterOneCouroutine());
        
     }
 
     public void ChapterTwo()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwoCouroutine());
 
     }
 
     public void ChapterThree()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterThreeCouroutine());
 
     }
     public void ChapterFour()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFourCouroutine());
 
     }
     public void ChapterFive()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFiveCouroutine());
 
     }
     public void ChapterSix()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSixCouroutine());
 
     }
@@ -194,149 +251,157 @@ public class StoryManager : MonoBehaviour
     public void ChapterSeven()
     {
 
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSevenCouroutine());
 
     }
 
     public void ChapterEight()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterEightCouroutine());
 
     }
 
     public void ChapterNine()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterNineCouroutine());
 
     }
     public void ChapterTen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTenCouroutine());
 
     }
     public void ChapterEleven()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterElevenCouroutine());
 
     }
     public void ChapterTwelve()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwelveCouroutine());
 
     }
 
     public void ChapterThirteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterThirteenCouroutine());
 
     }
 
     public void ChapterFourteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFourteenCouroutine());
 
     }
 
     public void ChapterFifteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterFifteenCouroutine());
 
     }
 
     public void ChapterSixteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSixteenCouroutine());
 
     }
 
     public void ChapterSeventeen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterSeventeenCouroutine());
 
     }
 
     public void ChapterEighteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterEighteenCouroutine());
 
     }
 
     public void ChapterNineteen()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterNineteenCouroutine());
 
     }
 
     public void ChapterTwenty()
     {
-        highlightManager.StartHighlightCoroutine();
+       //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyCouroutine());
 
     }
 
     public void ChapterTwentyOne()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyOneCouroutine());
 
     }
 
     public void ChapterTwentyTwo()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyTwoCouroutine());
 
     }
 
     public void ChapterTwentyThree()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyThreeCouroutine());
 
     }
 
     public void ChapterTwentyFour()
     {
-        highlightManager.StartHighlightCoroutine();
+        //highlightManager.StartHighlightCoroutine();
         StartCoroutine(ChapterTwentyFourCouroutine());
 
     }
     IEnumerator IntroChapterCoroutine() 
     {
+
         //startTimer = true;
+        
 
         Debug.Log("Inside intro chapter");
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
+        blockRaycast.GetComponent<Collider>().enabled = true;
 
         //Debug.Log("Current value of startTimer is" + startTimer);
-        yield return new WaitForSeconds(1f);        
+        yield return new WaitForSeconds(1f);
+        simTimer.StartTimer();
         audioManager.PlayAudio();
+        uiManager.simText.text = currentChapter.shortenedText;
+
+
+        //highlightManager.StartHighlight();
         //PopulateGlowGameObjects();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = true;
         animationManager.PlayDelayed();
 
         while (true) 
         {
-            
-
-            
+   
             if (audioSource.isPlaying)
-            {
+            {                
                 Debug.Log("Inside audio clip check in story manager");
-                yield return new WaitForSeconds(audioSource.clip.length);                
+                
+                yield return new WaitForSeconds(audioSource.clip.length + 2f);
+                
                 break;                
 
             }
@@ -351,15 +416,27 @@ public class StoryManager : MonoBehaviour
     }
     IEnumerator ChapterOneCouroutine() 
     {
-
+        
         Debug.Log("Inside Chapter One");
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
 
         yield return new WaitForSeconds(1f);
+        blockRaycast.GetComponent<Collider>().enabled = true;
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
-        
+        //highlightManager.stopHighlight = false;
 
+
+        while (true) 
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight) 
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true) 
         {
@@ -385,9 +462,22 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Inside Chapter Two");
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
-        audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        blockRaycast.GetComponent<Collider>().enabled = true;
 
+        audioManager.PlayAudio();
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+        blockRaycast.GetComponent<Collider>().enabled = false;
+
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -417,7 +507,21 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        blockRaycast.GetComponent<Collider>().enabled = true;
+
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -444,7 +548,21 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        blockRaycast.GetComponent<Collider>().enabled = true;
+
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+        
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -470,7 +588,19 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+        
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -497,7 +627,18 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log(audioSource.clip.name);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -523,7 +664,18 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -549,7 +701,18 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -575,7 +738,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -601,7 +777,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -627,7 +816,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -653,7 +855,19 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
 
         while (true)
         {
@@ -679,7 +893,21 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
+
 
         while (true)
         {
@@ -705,7 +933,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -731,7 +972,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -757,7 +1011,19 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -783,7 +1049,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -809,7 +1088,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -835,7 +1127,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -861,7 +1166,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -887,7 +1205,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -913,7 +1244,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -939,7 +1283,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -965,7 +1322,20 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current chapter interact Object tag is " + currentChapter.interactObjectTag.ToString());
         yield return new WaitForSeconds(1f);
         audioManager.PlayAudio();
-        highlightManager.stopHighlight = false;
+        //highlightManager.stopHighlight = false;
+
+        while (true)
+        {
+            if (!audioSource.isPlaying && !isPaused && !animationManager.animationPlaying && highlightManager.stopHighlight)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        blockRaycast.GetComponent<Collider>().enabled = false;
+        highlightManager.StartHighlight();
+
 
         while (true)
         {
@@ -982,6 +1352,51 @@ public class StoryManager : MonoBehaviour
         }
         //SJSludge.transform.localScale = new Vector3(0.0518035777f, 0f, 0.0518035777f);        
         //NextChapter();
+        yield return null;
+    }
+
+    IEnumerator PauseStoryCheckCo(int state) 
+    {
+
+        if(state == 0) 
+        {
+
+            highlightManager.StopHighlight();
+            animationManager.PauseAnimation();
+            audioManager.PauseAudio();
+            blockRaycast.GetComponent<Collider>().enabled = true;
+
+        }
+        else if (state == 1) 
+        {
+            animationManager.ResumeAnimation();
+            highlightManager.StartHighlight();
+            audioManager.PlayAudio();
+            
+        }
+
+        /*
+        while (true) 
+        {
+            if (isPaused)
+            {
+                highlightManager.StopHighlight();
+            animationManager.PauseAnimation();
+            audioManager.PauseAudio();
+
+                break;
+            }
+            else if (!isPaused)
+            {
+                            animationManager.ResumeAnimation();
+            highlightManager.StartHighlight();
+            audioManager.PlayAudio();
+                break;
+            }
+
+            yield return null;
+        }*/
+
         yield return null;
     }
     public void PopulateDictionary() 

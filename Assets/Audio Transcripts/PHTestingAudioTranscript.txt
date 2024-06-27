@@ -1,0 +1,7 @@
+PH1:
+PH is one of the most commonly measured parameters in both water and wastewater treatment. PH measures the concentration of hydrogen ions in a solution and tells the water or wastewater operator how acidic or how basic the solution is. If the sample contains a higher number of hydrogen ions the solution is acidic by contrast if the sample contains a lower number of hydrogen ions the sample is basic.
+
+PH2:
+PH is measured on a scale of 0-14. A Ph of Seven is considered neutral any pH below 7 is acidic while pH reading above 7 is basic or alkaline the difference between each pH unit is a tenfold value for instance a pH of eight is 10 times more basic than a pH of seven and a pH of four is 100 times more acidic than a pH of 6 the most accurate method to measure pH is with a pH meter and electrode pH analysis should be completed as soon as possible after sample collection we will now begin the pH sample analysis tutorial to begin click on the pH meter to turn it on
+
+PH3:

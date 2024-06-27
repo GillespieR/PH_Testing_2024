@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: "\u200AClick on the graduated cylinder to pour the sample into the beaker."
+  shortenedText: 'Click on graduated cylinder '

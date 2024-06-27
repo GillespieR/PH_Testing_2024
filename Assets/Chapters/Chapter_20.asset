@@ -22,3 +22,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   chapterComplete: 0
+  fullText: 'Click on the sample bottle to measure out 100ml of the sample. '
+  shortenedText: Click on sample bottle
